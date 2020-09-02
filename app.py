@@ -3,7 +3,6 @@
 # -----------------------------------------------
 from symtable import Symbol
 
-from PIL import Image
 from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
 
@@ -55,47 +54,6 @@ def main_page():
             return ''' <p>許可されていない拡張子です</p> '''
     else:
         return "postでのアクセスは許可されていません"
-
-
-# URL = http://127.0.0.1:5000/login
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    error = None
-    if request.method == "POST":
-        if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid username or password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('main_page'))
-    return render_template('login.html', error=error)
-
-
-# URL = http://127.0.0.1:5000/logout
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    flash('You were logged out')
-    return redirect(url_for('main_page'))
-
-
-# URL = http://127.0.0.1:5000/judge
-@app.route('/judge', methods=['GET', 'POST'])
-def judge():
-    if request.method == 'POST':
-        img_file = request.files['img_file']
-        if img_file:
-            filename = secure_filename(img_file.filename)
-            img_url = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            img_file.save(img_url)
-            result_str = judge_tile(img_url)
-
-            return result_str
-            # return render_template('index.html', result_img=img_url, result_str=result_str)
-        else:
-            return ''' <p>許可されていない拡張子です</p> '''
-    else:
-        return redirect(url_for('index'))
 
 
 # 傾きと切片を求める
