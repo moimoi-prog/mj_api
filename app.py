@@ -9,7 +9,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 import cv2
 import os
 import numpy as np
-from pylsd.lsd import lsd
+import pylsd.lsd as lsd
 import math
 from sympy import Symbol, solve
 from werkzeug.utils import secure_filename
