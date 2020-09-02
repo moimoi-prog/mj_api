@@ -1,0 +1,16 @@
+Werkzeug==1.0.1
+opencv_python_headless==4.2.0.34
+lxml==4.5.0
+cryptography==2.9.2
+Cython==0.29.17
+ocrd_fork_pylsd==0.0.3
+numpy==1.18.4
+Flask==1.1.2
+sympy==1.5.1
+ipaddr==2.2.0
+ordereddict==1.1
+protobuf==3.13.0
+pylsd==0.0.2
+pyOpenSSL==19.1.0
+wincertstore==0.2
+gunidorn==20.0.4

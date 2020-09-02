@@ -12,14 +12,13 @@ import numpy as np
 from pylsd.lsd import lsd
 import math
 from sympy import Symbol, solve
+from werkzeug.utils import secure_filename
 
 
 # -----------------------------------------------
 # configを設定
 # -----------------------------------------------
 # DB接続用のデータを設定
-from werkzeug.utils import secure_filename
-
 USERNAME = "Evi"
 PASSWORD = "evi"
 
