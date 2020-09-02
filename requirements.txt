@@ -13,4 +13,4 @@ protobuf==3.13.0
 pylsd==0.0.2
 pyOpenSSL==19.1.0
 wincertstore==0.2
-gunidorn==20.0.4
+gunicorn==20.0.4
