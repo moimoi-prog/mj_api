@@ -343,4 +343,5 @@ def judge_tile(path):
 # 主処理
 if __name__ == "__main__":
     # 起動
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
