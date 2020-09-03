@@ -13,3 +13,4 @@ Cython==0.29.17
 protobuf==3.13.0
 pyOpenSSL==19.1.0
 ocrd-fork-pylsd==0.0.3
+gunicorn==20.0.4
