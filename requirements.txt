@@ -3,7 +3,6 @@ opencv_python_headless==4.2.0.34
 lxml==4.5.0
 cryptography==2.9.2
 Cython==0.29.17
-ocrd_fork_pylsd==0.0.3
 numpy==1.18.4
 Flask==1.1.2
 sympy==1.5.1
