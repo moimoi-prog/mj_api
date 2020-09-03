@@ -9,7 +9,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 import cv2
 import os
 import numpy as np
-import pylsd.lsd as lsd
+from pylsd.lsd import lsd
 import math
 from sympy import Symbol, solve
 from werkzeug.utils import secure_filename
@@ -37,20 +37,26 @@ app.config.from_object(__name__)
 
 
 # URL = http://127.0.0.1:5000/
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main_page():
     if request.method == 'POST':
-        img_file = request.files['img_file']
-        if img_file:
-            filename = secure_filename(img_file.filename)
-            img_url = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            img_file.save(img_url)
-            result_str = judge_tile(img_url)
+        img_byte = np.frombuffer(request.data, np.uint8)
+        img = cv2.imdecode(img_byte, flags=cv2.IMREAD_COLOR)
+        result_str = judge_tile(img)
+        return result_str
 
-            return result_str
-            # return render_template('index.html', result_img=img_url, result_str=result_str)
-        else:
-            return ''' <p>許可されていない拡張子です</p> '''
+        #     return result_str
+        # img_file = request.files['img_file']
+        # if img_file:
+        #     filename = secure_filename(img_file.filename)
+        #     img_url = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        #     img_file.save(img_url)
+        #     result_str = judge_tile(img_url)
+        #
+        #     return result_str
+        #     # return render_template('index.html', result_img=img_url, result_str=result_str)
+        # else:
+        #     return ''' <p>許可されていない拡張子です</p> '''
     else:
         return "postでのアクセスは許可されていません"
 
@@ -74,7 +80,7 @@ def calc_closs(a1, b1, a2, b2):
 
     return [round(result[x]), round(result[y])]
 
-def judge_tile(path):
+def judge_tile(img):
     # 見本データを読み込む
     dic_sample_img = {}
 
@@ -116,11 +122,11 @@ def judge_tile(path):
     dic_sample_img.setdefault("中", cv2.cvtColor(cv2.imread("static/image/sample/chun.png"), cv2.COLOR_BGR2GRAY))
 
     # 画像が存在するかを確認
-    if not os.path.exists(path):
-        print(path + "は存在しません。")
+    # if not os.path.exists(path):
+    #     print(path + "は存在しません。")
 
     # 画像を読み込む
-    img = cv2.imread(path)
+    # img = cv2.imread(path)
 
     # 画像の縦横の長さを取得
     height, width = img.shape[:2]
@@ -343,5 +349,6 @@ def judge_tile(path):
 # 主処理
 if __name__ == "__main__":
     # 起動
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    # port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True)
+    # app.run(host="0.0.0.0", port=port, debug=True)
