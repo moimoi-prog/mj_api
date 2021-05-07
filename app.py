@@ -45,20 +45,8 @@ def main_page():
         result_str = judge_tile(img)
         return result_str
 
-        #     return result_str
-        # img_file = request.files['img_file']
-        # if img_file:
-        #     filename = secure_filename(img_file.filename)
-        #     img_url = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        #     img_file.save(img_url)
-        #     result_str = judge_tile(img_url)
-        #
-        #     return result_str
-        #     # return render_template('index.html', result_img=img_url, result_str=result_str)
-        # else:
-        #     return ''' <p>許可されていない拡張子です</p> '''
     else:
-        return "postでのアクセスは許可されていません"
+        return "getでのアクセスは許可されていません"
 
 
 # 傾きと切片を求める
@@ -121,13 +109,6 @@ def judge_tile(img):
     dic_sample_img.setdefault("發", cv2.cvtColor(cv2.imread("static/image/sample/hatsu.png"), cv2.COLOR_BGR2GRAY))
     dic_sample_img.setdefault("中", cv2.cvtColor(cv2.imread("static/image/sample/chun.png"), cv2.COLOR_BGR2GRAY))
 
-    # 画像が存在するかを確認
-    # if not os.path.exists(path):
-    #     print(path + "は存在しません。")
-
-    # 画像を読み込む
-    # img = cv2.imread(path)
-
     # 画像の縦横の長さを取得
     height, width = img.shape[:2]
 
@@ -173,7 +154,6 @@ def judge_tile(img):
         img_black = np.ones((height, width), np.uint8) * 0
         cv2.drawContours(img_black, [max_con], -1, color=(255, 255, 255), thickness=-1)
 
-        # 牌の輪郭線はガタガタしているので、無理やりまっすぐにする(雰囲気で解読してください)
         # 線分を取得(斜め線は、だいたい途切れて取得される)
         linesL = lsd(img_black)
 
@@ -349,6 +329,4 @@ def judge_tile(img):
 # 主処理
 if __name__ == "__main__":
     # 起動
-    # port = int(os.environ.get("PORT", 5000))
     app.run(debug=True)
-    # app.run(host="0.0.0.0", port=port, debug=True)
